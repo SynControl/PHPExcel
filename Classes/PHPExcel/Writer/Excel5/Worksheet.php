@@ -2835,7 +2835,10 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
                         break;
                     case PHPExcel_Cell_DataValidation::STYLE_INFORMATION:
                         $errorStyle = 0x02;
-                        break;
+						break;
+					default:
+						$errorStyle = 0x00;
+						break;
                 }
                 $options |= $errorStyle << 4;
 
@@ -2883,8 +2886,9 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
                     case PHPExcel_Cell_DataValidation::OPERATOR_LESSTHANOREQUAL:
                         $operator = 0x07;
                         break;
-                }
-                $options |= $operator << 20;
+				}
+
+				if ($operator) $options |= $operator << 20;
 
                 $data        = pack('V', $options);
 
